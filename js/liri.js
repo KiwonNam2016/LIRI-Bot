@@ -13,6 +13,9 @@ var spotify = require('node-spotify-api');
 //require request npm
 var request = require('request');
 
+//require file system
+var fs = require('fs');
+
 //taking in the keys into a variable called client
 var keys = require('./key.js')
 
@@ -45,6 +48,9 @@ switch(command){
 	//ombd request
 	case 'movie-this':
 		movieThis();
+		break;
+	case 'do-what-it-says':
+		doWhatItSays();
 		break;
 }
 
@@ -96,6 +102,7 @@ function spotifyThisSong(inputs){
 }
 
 function movieThis(){
+	
 	var movieName = '';
 	for(var i = 1; i < inputs.length;i++){
 		console.log("For loop");
@@ -107,5 +114,24 @@ function movieThis(){
 		movieName = 'Mr. Nobody';
 	}
 
-	
+	//creating the movie url
+	var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece";
+
+
+	request(queryUrl, function(error, response, body) {
+
+	  // If the request is successful (i.e. if the response status code is 200)
+		if (!error && response.statusCode === 200) {
+
+		    console.log(response);
+		    //console.log()
+		    console.log("IMBD Rating: " + JSON.parse(body).imdbRating);
+		}
+	});
+
+
+}
+
+function doWhatItSays(){
+
 }
