@@ -47,7 +47,7 @@ switch(command){
 		break;
 	//ombd request
 	case 'movie-this':
-		movieThis();
+		movieThis(inputs);
 		break;
 	case 'do-what-it-says':
 		doWhatItSays();
@@ -101,8 +101,8 @@ function spotifyThisSong(inputs){
 
 }
 
-function movieThis(){
-	
+function movieThis(inputs){
+
 	var movieName = '';
 	for(var i = 1; i < inputs.length;i++){
 		console.log("For loop");
@@ -124,7 +124,7 @@ function movieThis(){
 		if (!error && response.statusCode === 200) {
 
 		    console.log(response);
-		    //console.log()
+		   
 		    console.log("IMBD Rating: " + JSON.parse(body).imdbRating);
 		}
 	});
@@ -133,5 +133,14 @@ function movieThis(){
 }
 
 function doWhatItSays(){
+	fs.readFile("../random.txt.txt", "utf8", function(error, data) {
+    	//take in the file content and make an array by splitting via the comma
+    	var fileContents = data.split(",");
+    	var command = fileContents[0];
 
+    	//do the spotify-command
+    	if(command == "spotify-this-song"){
+    		spotifyThisSong(fileContents[1]);
+    	}
+    });
 }
